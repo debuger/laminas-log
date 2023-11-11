@@ -23,6 +23,10 @@ use function sprintf;
 
 class DbTest extends TestCase
 {
+    private DbWriter $writer;
+    private MockDbAdapter $db;
+    private string $tableName;
+
     protected function setUp(): void
     {
         $this->tableName = 'db-table-name';
