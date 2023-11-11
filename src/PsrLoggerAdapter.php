@@ -7,6 +7,7 @@ namespace Laminas\Log;
 use Psr\Log\AbstractLogger as PsrAbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
+use Stringable;
 
 use function array_key_exists;
 use function sprintf;
@@ -67,10 +68,9 @@ class PsrLoggerAdapter extends PsrAbstractLogger
      * @param mixed  $level
      * @param string $message
      * @param array  $context
-     * @return void
      * @throws InvalidArgumentException If log level is not recognized.
      */
-    public function log($level, $message, array $context = [])
+    public function log($level, string|Stringable $message, array $context = []): void
     {
         if (! array_key_exists($level, $this->psrPriorityMap)) {
             throw new InvalidArgumentException(sprintf(

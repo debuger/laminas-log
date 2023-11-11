@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Laminas\Log;
 
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Laminas\ServiceManager\AbstractFactoryInterface;
-use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -49,17 +47,6 @@ class LoggerAbstractServiceFactory extends LoggerServiceFactory implements Abstr
         return isset($config[$requestedName]);
     }
 
-    /**
-     * @param string $name
-     * @param string $requestedName
-     * @return bool
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
-    {
-        return $this->canCreate($serviceLocator, $requestedName);
-    }
 
     /**
      * {@inheritdoc}
@@ -72,19 +59,6 @@ class LoggerAbstractServiceFactory extends LoggerServiceFactory implements Abstr
         $this->processConfig($config, $container);
 
         return new Logger($config);
-    }
-
-    /**
-     * @param string $name
-     * @param string $requestedName
-     * @return Logger
-     * @throws ContainerException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
-    {
-        return $this($serviceLocator, $requestedName);
     }
 
     /**

@@ -7,9 +7,9 @@ namespace LaminasTest\Log;
 use Laminas\Log\Logger;
 use Laminas\Log\PsrLoggerAdapter;
 use Laminas\Log\Writer\Mock as MockWriter;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
-use Psr\Log\Test\LoggerInterfaceTest;
 
 use function array_flip;
 use function array_map;
@@ -18,7 +18,7 @@ use function array_map;
  * @coversDefaultClass \Laminas\Log\PsrLoggerAdapter
  * @covers ::<!public>
  */
-class PsrLoggerAdapterTest extends LoggerInterfaceTest
+class PsrLoggerAdapterTest extends TestCase
 {
     /** @var array */
     protected $psrPriorityMap = [
@@ -31,6 +31,7 @@ class PsrLoggerAdapterTest extends LoggerInterfaceTest
         LogLevel::INFO      => Logger::INFO,
         LogLevel::DEBUG     => Logger::DEBUG,
     ];
+    private MockWriter $mockWriter;
 
     /**
      * Provides logger for LoggerInterface compat tests

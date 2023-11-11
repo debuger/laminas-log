@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LaminasTest\Log\Writer;
 
 use Closure;
+use Exception;
 use Laminas\Log\Exception\InvalidArgumentException;
 use Laminas\Log\Exception\RuntimeException;
 use Laminas\Log\Filter\Mock;
@@ -74,13 +75,17 @@ class AbstractTest extends TestCase
 
     public function testConvertErrorsToException(): void
     {
+        set_error_handler(static function (int $errno, string $errstr): void {
+            throw new RuntimeException('Warning', $errno);
+        }, E_USER_WARNING);
         $writer = new ErrorGeneratingWriter();
         $this->expectException(RuntimeException::class);
         $writer->write(['message' => 'test']);
 
         $writer->setConvertWriteErrorsToExceptions(false);
-        $this->expectWarning();
+        $this->expectExceptionMessage('Warning');
         $writer->write(['message' => 'test']);
+        restore_error_handler();
     }
 
     public function testConstructorWithOptions(): void
